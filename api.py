@@ -1,5 +1,5 @@
 from sqlmodel import Session
-from fastapi import FastAPI
+from fastapi import FastAPI, Response, status
 from db import engine, SQLModel
 from models.models import Veiculo
 import random
@@ -37,7 +37,7 @@ def read_root():
 
 
 @app.get("/veiculos/{placa_veiculo}")
-def get_veiculo(placa_veiculo: str):
+def get_veiculo(placa_veiculo: str, response = Response):
     with Session(engine) as session:
         veiculo = session.get(Veiculo, placa_veiculo.lower())
         if not veiculo:
@@ -50,11 +50,12 @@ def get_veiculo(placa_veiculo: str):
                 multas=multas,
                 pendencias_financeiras=multas * 150.00
             )
-
             session.add(new_veiculo)
             session.commit()
             session.refresh(new_veiculo)
+            response.status_code = status.HTTP_201_CREATED
             return new_veiculo
+        response.status_code = status.HTTP_200_OK
         return veiculo
 
 
