@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_bibip_backend_1727296714578-pr-trigger-input-set
+  identifier: Build_bibip_backend_1727296714578prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_bibip_backend_1727296714578
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
